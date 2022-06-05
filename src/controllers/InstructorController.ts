@@ -2,7 +2,7 @@ import _ from "lodash";
 import Bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 
-import User from "../models/User";
+import Instructor from "../models/Instructor";
 
 import { validateLogin } from "./validation/AuthValidators";
 import { validateRegister } from "./validation/RegistrationValidators";
@@ -10,7 +10,7 @@ import { validateRegister } from "./validation/RegistrationValidators";
 import { createJwtAuthToken, verifyToken } from "../utils/helper";
 import { JwtPayload } from "jsonwebtoken";
 
-export class AuthController {
+export class InstructorController {
   public async login(req: Request, res: Response) {
     try {
       const body = req.body;
@@ -22,7 +22,7 @@ export class AuthController {
           .json({ status: false, message: "error", errors: errors });
       }
 
-      const user = await User.findOne(
+      const user = await Instructor.findOne(
         { email: body.email },
         { createdAt: 0, updateAt: 0 }
       );
@@ -43,9 +43,9 @@ export class AuthController {
         });
       }
 
-      const token = createJwtAuthToken(user, false);
+      const token = createJwtAuthToken(user, true);
 
-      const users = await User.findOne(
+      const users = await Instructor.findOne(
         { _id: user._id },
         {
           createdAt: 0,
@@ -57,7 +57,7 @@ export class AuthController {
         }
       );
 
-      await User.findOneAndUpdate(
+      await Instructor.findOneAndUpdate(
         { _id: user._id },
         { $set: { forgetPasswordToken: "" } }
       );
@@ -96,7 +96,7 @@ export class AuthController {
       });
     }
 
-    const user = await User.findOne(
+    const user = await Instructor.findOne(
       { _id: decode._id, status: true },
       {
         createdAt: 0,
@@ -135,7 +135,7 @@ export class AuthController {
           .json({ status: false, message: "error", errors: errors });
       }
 
-      let user = await User.findOne({ email: body.email });
+      let user = await Instructor.findOne({ email: body.email });
       if (user) {
         return res.status(200).send({
           status: false,
@@ -146,7 +146,7 @@ export class AuthController {
 
       const salt = await Bcrypt.genSalt(10);
       body.password = await Bcrypt.hash(body.password, salt);
-      user = await User.create(body);
+      user = await Instructor.create(body);
       
       return res.status(200).send({
         status: true,
@@ -154,6 +154,8 @@ export class AuthController {
         data: _.pick(user, [
           "name",
           "email",
+          "bio",
+          "avatar",
           "_id",
         ]),
       });

@@ -19,11 +19,11 @@ const isEmpty = (value: any) => {
   );
 };
 
-const createJwtAuthToken = (user: string) => {
+const createJwtAuthToken = (user: string, instructor: boolean) => {
   const contents = {
     _id: _.get(user, "_id", ""),
-    firstName: _.get(user, "firstName", ""),
-    lastName: _.get(user, "lastName", ""),
+    name: _.get(user, "name", ""),
+    instructor,
     createdAt: Date.now(),
   };
 

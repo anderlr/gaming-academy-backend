@@ -21,11 +21,11 @@ const isEmpty = (value) => {
         (typeof value === "string" && value.trim().length === 0));
 };
 exports.isEmpty = isEmpty;
-const createJwtAuthToken = (user) => {
+const createJwtAuthToken = (user, instructor) => {
     const contents = {
         _id: lodash_1.default.get(user, "_id", ""),
-        firstName: lodash_1.default.get(user, "firstName", ""),
-        lastName: lodash_1.default.get(user, "lastName", ""),
+        name: lodash_1.default.get(user, "name", ""),
+        instructor,
         createdAt: Date.now(),
     };
     const token = jsonwebtoken_1.default.sign(contents, "JWT_TOKEN_KEY", {

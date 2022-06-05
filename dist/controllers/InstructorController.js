@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthController = void 0;
+exports.InstructorController = void 0;
 const lodash_1 = __importDefault(require("lodash"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const User_1 = __importDefault(require("../models/User"));
+const Instructor_1 = __importDefault(require("../models/Instructor"));
 const AuthValidators_1 = require("./validation/AuthValidators");
 const RegistrationValidators_1 = require("./validation/RegistrationValidators");
 const helper_1 = require("../utils/helper");
-class AuthController {
+class InstructorController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -30,7 +30,7 @@ class AuthController {
                         .status(400)
                         .json({ status: false, message: "error", errors: errors });
                 }
-                const user = yield User_1.default.findOne({ email: body.email }, { createdAt: 0, updateAt: 0 });
+                const user = yield Instructor_1.default.findOne({ email: body.email }, { createdAt: 0, updateAt: 0 });
                 if (!user) {
                     return res.status(400).json({
                         status: false,
@@ -46,8 +46,8 @@ class AuthController {
                         data: {},
                     });
                 }
-                const token = (0, helper_1.createJwtAuthToken)(user, false);
-                const users = yield User_1.default.findOne({ _id: user._id }, {
+                const token = (0, helper_1.createJwtAuthToken)(user, true);
+                const users = yield Instructor_1.default.findOne({ _id: user._id }, {
                     createdAt: 0,
                     updateAt: 0,
                     roles: 0,
@@ -55,7 +55,7 @@ class AuthController {
                     status: 0,
                     forgetPasswordToken: 0,
                 });
-                yield User_1.default.findOneAndUpdate({ _id: user._id }, { $set: { forgetPasswordToken: "" } });
+                yield Instructor_1.default.findOneAndUpdate({ _id: user._id }, { $set: { forgetPasswordToken: "" } });
                 return res.status(200).send({
                     status: true,
                     message: "Logged-in successfully.",
@@ -90,7 +90,7 @@ class AuthController {
                     data: [],
                 });
             }
-            const user = yield User_1.default.findOne({ _id: decode._id, status: true }, {
+            const user = yield Instructor_1.default.findOne({ _id: decode._id, status: true }, {
                 createdAt: 0,
                 updateAt: 0,
                 roles: 0,
@@ -126,7 +126,7 @@ class AuthController {
                         .status(400)
                         .json({ status: false, message: "error", errors: errors });
                 }
-                let user = yield User_1.default.findOne({ email: body.email });
+                let user = yield Instructor_1.default.findOne({ email: body.email });
                 if (user) {
                     return res.status(200).send({
                         status: false,
@@ -136,13 +136,15 @@ class AuthController {
                 }
                 const salt = yield bcryptjs_1.default.genSalt(10);
                 body.password = yield bcryptjs_1.default.hash(body.password, salt);
-                user = yield User_1.default.create(body);
+                user = yield Instructor_1.default.create(body);
                 return res.status(200).send({
                     status: true,
                     message: "User created successfully.",
                     data: lodash_1.default.pick(user, [
                         "name",
                         "email",
+                        "bio",
+                        "avatar",
                         "_id",
                     ]),
                 });
@@ -157,4 +159,4 @@ class AuthController {
         });
     }
 }
-exports.AuthController = AuthController;
+exports.InstructorController = InstructorController;
