@@ -24,7 +24,7 @@ export class CourseController {
 
   public async getById(req: Request, res: Response) {
     try {
-      const id = req.query.id;
+      const id = req.params.id;
       const course = await Course.findOne({
         _id: new mongoose.Types.ObjectId(id as string),
       }).populate(["instructor", "lections"]);

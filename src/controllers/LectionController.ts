@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import _ from "lodash";
 
 import Lection from "../models/Lection";
-import Course from "../models/Course";
 
 export class LectionController {
   public async getAll(req: Request, res: Response) {
