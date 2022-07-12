@@ -25,20 +25,20 @@ class Routes {
         app.route("/api/v1/instructor/me").get(this.instructorController.authenticate);
         app.route("/api/v1/instructor/registration").post(this.instructorController.registration);
         app.route("/api/v1/course/getAll").get(this.courseController.getAll);
-        app.route("/api/v1/course/getById").get(this.courseController.getById);
+        app.route("/api/v1/course/getById/:id").get(this.courseController.getById);
         app.route("/api/v1/course/create").post(this.courseController.create);
         app.route("/api/v1/course/update").get(this.courseController.update);
-        app.route("/api/v1/course/delete").get(this.courseController.delete);
+        app.route("/api/v1/course/delete/:id").get(this.courseController.delete);
         app.route("/api/v1/course/getAll").get(this.courseController.getAll);
-        app.route("/api/v1/course/getById").get(this.courseController.getById);
+        app.route("/api/v1/course/getById/:id").get(this.courseController.getById);
         app.route("/api/v1/course/create").post(this.courseController.create);
         app.route("/api/v1/course/update").get(this.courseController.update);
-        app.route("/api/v1/course/delete").get(this.courseController.delete);
+        app.route("/api/v1/course/delete/:id").get(this.courseController.delete);
         app.route("/api/v1/lection/getAll").get(this.lectionController.getAll);
-        app.route("/api/v1/lection/getById").get(this.lectionController.getById);
+        app.route("/api/v1/lection/getById/:id").get(this.lectionController.getById);
         app.route("/api/v1/lection/create").post(this.lectionController.create);
         app.route("/api/v1/lection/update").get(this.lectionController.update);
-        app.route("/api/v1/lection/delete").get(this.lectionController.delete);
+        app.route("/api/v1/lection/delete/:id").get(this.lectionController.delete);
     }
 }
 exports.Routes = Routes;

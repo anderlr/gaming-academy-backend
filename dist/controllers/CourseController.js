@@ -38,7 +38,7 @@ class CourseController {
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const id = req.query.id;
+                const id = req.params.id;
                 const course = yield Course_1.default.findOne({
                     _id: new mongoose_1.default.Types.ObjectId(id),
                 }).populate(["instructor", "lections"]);
