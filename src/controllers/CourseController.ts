@@ -100,10 +100,10 @@ export class CourseController {
         message: "Course create successfully.",
         data: course,
       });
-    } catch (e) {
+    } catch (e: any) {
       return res.status(200).send({
         status: false,
-        message: "Invalid Request.",
+        message: e.message,
         data: [],
       });
     }

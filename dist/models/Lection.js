@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 // create a schema
 var lectionSchema = new mongoose_1.default.Schema({
-    course: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "course" },
     name: { type: String, default: "" },
     description: { type: String, default: "" },
     video: { type: String, default: "" },

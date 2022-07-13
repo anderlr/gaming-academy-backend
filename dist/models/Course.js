@@ -13,10 +13,17 @@ var courseSchema = new mongoose_1.default.Schema({
     duration: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
     // Aggregates
-    lections: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "lection" }]
+    lections: [
+        {
+            name: { type: String, default: "" },
+            description: { type: String, default: "" },
+            video: { type: String, default: "" },
+            duration: { type: Number, default: 0 },
+        },
+    ],
 }, {
     // Automatically include createdAt and updatedAt field
     timestamps: true,
-    versionKey: false
+    versionKey: false,
 });
 exports.default = mongoose_1.default.model("course", courseSchema);

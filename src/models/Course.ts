@@ -1,4 +1,4 @@
-import Mongoose from "mongoose"
+import Mongoose from "mongoose";
 
 // create a schema
 var courseSchema = new Mongoose.Schema(
@@ -11,13 +11,20 @@ var courseSchema = new Mongoose.Schema(
     isDeleted: { type: Boolean, default: false },
 
     // Aggregates
-    lections: [ { type: Mongoose.Schema.Types.ObjectId, ref: "lection"} ]
+    lections: [
+      {
+        name: { type: String, default: "" },
+        description: { type: String, default: "" },
+        video: { type: String, default: "" },
+        duration: { type: Number, default: 0 },
+      },
+    ],
   },
   {
     // Automatically include createdAt and updatedAt field
     timestamps: true,
-    versionKey: false
+    versionKey: false,
   }
-)
+);
 
-export default Mongoose.model("course", courseSchema)
+export default Mongoose.model("course", courseSchema);

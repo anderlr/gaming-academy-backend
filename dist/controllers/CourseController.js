@@ -111,7 +111,7 @@ class CourseController {
             catch (e) {
                 return res.status(200).send({
                     status: false,
-                    message: "Invalid Request.",
+                    message: e.message,
                     data: [],
                 });
             }
