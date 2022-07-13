@@ -18,7 +18,7 @@ export class AuthController {
 
       if (!isValid) {
         return res
-          .status(400)
+          .status(200)
           .json({ status: false, message: "error", errors: errors });
       }
 
@@ -27,7 +27,7 @@ export class AuthController {
         { createdAt: 0, updateAt: 0 }
       );
       if (!user) {
-        return res.status(400).json({
+        return res.status(200).json({
           status: false,
           message: "Login email not found",
           data: {},
@@ -36,7 +36,7 @@ export class AuthController {
 
       const passwordCheck = await Bcrypt.compare(body.password, user.password);
       if (!passwordCheck) {
-        return res.status(400).json({
+        return res.status(200).json({
           status: false,
           message: "Wrong password",
           data: {},
@@ -147,15 +147,11 @@ export class AuthController {
       const salt = await Bcrypt.genSalt(10);
       body.password = await Bcrypt.hash(body.password, salt);
       user = await User.create(body);
-      
+
       return res.status(200).send({
         status: true,
         message: "User created successfully.",
-        data: _.pick(user, [
-          "name",
-          "email",
-          "_id",
-        ]),
+        data: _.pick(user, ["name", "email", "_id"]),
       });
     } catch (error: any) {
       return res.status(200).send({

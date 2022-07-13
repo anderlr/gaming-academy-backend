@@ -27,12 +27,12 @@ class AuthController {
                 const { errors, isValid } = (0, AuthValidators_1.validateLogin)(body);
                 if (!isValid) {
                     return res
-                        .status(400)
+                        .status(200)
                         .json({ status: false, message: "error", errors: errors });
                 }
                 const user = yield User_1.default.findOne({ email: body.email }, { createdAt: 0, updateAt: 0 });
                 if (!user) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: false,
                         message: "Login email not found",
                         data: {},
@@ -40,7 +40,7 @@ class AuthController {
                 }
                 const passwordCheck = yield bcryptjs_1.default.compare(body.password, user.password);
                 if (!passwordCheck) {
-                    return res.status(400).json({
+                    return res.status(200).json({
                         status: false,
                         message: "Wrong password",
                         data: {},
@@ -140,11 +140,7 @@ class AuthController {
                 return res.status(200).send({
                     status: true,
                     message: "User created successfully.",
-                    data: lodash_1.default.pick(user, [
-                        "name",
-                        "email",
-                        "_id",
-                    ]),
+                    data: lodash_1.default.pick(user, ["name", "email", "_id"]),
                 });
             }
             catch (error) {

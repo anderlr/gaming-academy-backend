@@ -1,5 +1,6 @@
 import Express from "express";
 import dotenv from "dotenv";
+import cors from "cors"
 import BodyParser from "body-parser";
 import mongoose from "mongoose";
 import { Routes } from "./routes";
@@ -19,6 +20,7 @@ class App {
   private config(): void {
     this.app.use(BodyParser.json());
     this.app.use(BodyParser.urlencoded({ extended: false }));
+    this.app.use(cors());
   }
 
   private mongoSetup(): void {
