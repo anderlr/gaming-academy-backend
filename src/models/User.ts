@@ -10,6 +10,7 @@ const schema = new Mongoose.Schema(
       trim: true,
     },
     password: String,
+    courses: [{ type: Mongoose.Schema.Types.ObjectId, ref: "course" }],
   },
   { timestamps: true, versionKey: false }
 );

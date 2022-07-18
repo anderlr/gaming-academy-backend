@@ -13,5 +13,6 @@ const schema = new mongoose_1.default.Schema({
         trim: true,
     },
     password: String,
+    courses: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "course" }],
 }, { timestamps: true, versionKey: false });
 exports.default = mongoose_1.default.model("user", schema);

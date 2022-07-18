@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseController = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const Course_1 = __importDefault(require("../models/Course"));
+const User_1 = __importDefault(require("../models/User"));
 class CourseController {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -112,6 +113,49 @@ class CourseController {
                 return res.status(200).send({
                     status: false,
                     message: e.message,
+                    data: [],
+                });
+            }
+        });
+    }
+    getCourseByUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.params.id;
+                const user = yield User_1.default.findById(userId).populate(["courses"]);
+                return res.status(200).send({
+                    status: true,
+                    message: "Courses lists.",
+                    data: user.courses,
+                });
+            }
+            catch (error) {
+                return res.status(200).send({
+                    status: false,
+                    message: error.message,
+                    data: [],
+                });
+            }
+        });
+    }
+    addCourseToUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = req.params.userId;
+                const courseId = req.params.courseId;
+                const user = yield User_1.default.findById(userId);
+                user.courses.push(courseId);
+                yield user.save();
+                return res.status(200).send({
+                    status: true,
+                    message: "Course added successfully.",
+                    data: user,
+                });
+            }
+            catch (error) {
+                return res.status(200).send({
+                    status: false,
+                    message: error.message,
                     data: [],
                 });
             }

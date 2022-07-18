@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import _ from "lodash";
 
 import Course from "../models/Course";
+import User from "../models/User";
 
 export class CourseController {
   public async getAll(req: Request, res: Response) {
@@ -104,6 +105,50 @@ export class CourseController {
       return res.status(200).send({
         status: false,
         message: e.message,
+        data: [],
+      });
+    }
+  }
+
+  public async getCourseByUser(req: Request, res: Response) {
+    try {
+      const userId = req.params.id;
+
+      const user = await User.findById(userId).populate(["courses"]);
+
+      return res.status(200).send({
+        status: true,
+        message: "Courses lists.",
+        data: user.courses,
+      });
+    } catch (error: any) {
+      return res.status(200).send({
+        status: false,
+        message: error.message,
+        data: [],
+      });
+    }
+  }
+
+  public async addCourseToUser(req: Request, res: Response) {
+    try {
+      const userId = req.params.userId;
+      const courseId = req.params.courseId;
+
+      const user = await User.findById(userId);
+
+      user.courses.push(courseId);
+      await user.save();
+
+      return res.status(200).send({
+        status: true,
+        message: "Course added successfully.",
+        data: user,
+      });
+    } catch (error: any) {
+      return res.status(200).send({
+        status: false,
+        message: error.message,
         data: [],
       });
     }

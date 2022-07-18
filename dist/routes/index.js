@@ -27,6 +27,8 @@ class Routes {
         app.route("/api/v1/course/create").post(this.courseController.create);
         app.route("/api/v1/course/update").get(this.courseController.update);
         app.route("/api/v1/course/delete/:id").get(this.courseController.delete);
+        app.route("/api/v1/course/getByUser/:id").get(this.courseController.getCourseByUser);
+        app.route("/api/v1/course/addToUser/:courseId/:userId").post(this.courseController.addCourseToUser);
         app.route("/api/v1/course/getAll").get(this.courseController.getAll);
         app.route("/api/v1/course/getById/:id").get(this.courseController.getById);
         app.route("/api/v1/course/create").post(this.courseController.create);
